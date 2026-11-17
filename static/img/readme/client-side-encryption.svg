@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 568" width="1200" height="568" role="img" aria-labelledby="t d">
+  <title id="t">Client-side encryption</title>
+  <desc id="d">Your application seals data on your machine with the Kibo SDK, using a key held in your own KMS or HSM. Only ciphertext reaches the platform. Decrypt takes the same path in reverse. The platform never sees plaintext or your key.</desc>
+  <defs>
+    <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#8fb0ff"/></marker>
+    <marker id="aa" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#ffffff"/></marker>
+  </defs>
+  <rect x="0" y="0" width="1200" height="568" rx="16" fill="#0d1116"/>
+  <g font-family="Inter, 'Helvetica Neue', Helvetica, Arial, sans-serif">
+    <g transform="translate(124.0 22.0) scale(0.8)">
+    <rect x="20" y="60" width="780" height="590" rx="8" fill="none" stroke="#ffffff" stroke-width="2" stroke-dasharray="10 7"/>
+    <text x="45" y="102" font-size="26" fill="#9db6e8" text-anchor="start">Your machine / your cloud</text>
+    <rect x="35" y="150" width="230" height="130" rx="6" fill="#10264a" stroke="#4f7cff" stroke-width="2"/>
+    <text x="150.0" y="206" font-size="28" font-weight="700" fill="#eaf1ff" text-anchor="middle">Your app</text>
+    <text x="150.0" y="242" font-size="24" fill="#b8cbf2" text-anchor="middle">holds plaintext</text>
+    <path d="M267 215 H313" fill="none" stroke="#8fb0ff" stroke-width="2.5" marker-start="url(#ah)" marker-end="url(#ah)"/>
+    <rect x="315" y="150" width="260" height="130" rx="6" fill="#1a66ff" stroke="#9ec0ff" stroke-width="2"/>
+    <text x="445.0" y="206" font-size="28" font-weight="700" fill="#ffffff" text-anchor="middle">@k9o/kibo</text>
+    <text x="445.0" y="242" font-size="24" fill="#dbe7ff" text-anchor="middle">encrypt, decrypt</text>
+    <rect x="315" y="440" width="260" height="130" rx="6" fill="#10264a" stroke="#4f7cff" stroke-width="2"/>
+    <text x="445.0" y="496" font-size="26" font-weight="700" fill="#eaf1ff" text-anchor="middle">Your KMS / HSM</text>
+    <text x="445.0" y="532" font-size="24" fill="#b8cbf2" text-anchor="middle">holds your key</text>
+    <path d="M445 282 V438" fill="none" stroke="#8fb0ff" stroke-width="2.5" marker-start="url(#ah)" marker-end="url(#ah)"/>
+    <text x="465" y="368" font-size="24" fill="#b8cbf2" text-anchor="start">key never leaves</text>
+    <path d="M577 195 H878" fill="none" stroke="#ffffff" stroke-width="2.5" marker-end="url(#aa)"/>
+    <path d="M878 245 H577" fill="none" stroke="#ffffff" stroke-width="2.5" marker-end="url(#aa)"/>
+    <text x="595" y="180" font-size="24" fill="#ffffff" text-anchor="start">ciphertext only</text>
+    <text x="595" y="285" font-size="24" fill="#b8cbf2" text-anchor="start">decrypt: reverse</text>
+    <rect x="880" y="150" width="290" height="130" rx="6" fill="#10264a" stroke="#4f7cff" stroke-width="2"/>
+    <text x="1025.0" y="206" font-size="28" font-weight="700" fill="#eaf1ff" text-anchor="middle">Platform</text>
+    <text x="1025.0" y="242" font-size="24" fill="#b8cbf2" text-anchor="middle">stores ciphertext</text>
+    <rect x="880" y="320" width="290" height="130" rx="6" fill="#0b1b35" stroke="#3a5890" stroke-width="2"/>
+    <text x="1025.0" y="376" font-size="26" font-weight="700" fill="#b8cbf2" text-anchor="middle">Never sees</text>
+    <text x="1025.0" y="412" font-size="24" fill="#9db6e8" text-anchor="middle">plaintext or your key</text>
+    <text x="45" y="625" font-size="24" fill="#b8cbf2" text-anchor="start">Plaintext and keys stay inside this boundary</text>
+    </g>
+    <g transform="translate(1136 20) scale(0.0703)" role="img" aria-label="Kilimanjaro">
+      <polygon points="256,37.2 441.248,358.064 70.752,358.064" fill="#1A66FF"/>
+      <polygon points="57.392,375.608 114.784,474.8 0,474.8" fill="#FFFFFF"/>
+      <polygon points="189.8,375.608 247.192,474.8 132.408,474.8" fill="#FFFFFF"/>
+      <polygon points="322.2,375.608 379.592,474.8 264.808,474.8" fill="#FFFFFF"/>
+      <polygon points="454.608,375.608 512,474.8 397.216,474.8" fill="#FFFFFF"/>
+    </g>
+  </g>
+</svg>

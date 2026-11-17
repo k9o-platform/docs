@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 634" role="img" aria-labelledby="hub-platform-t hub-platform-d">
+  <title id="hub-platform-t">Architecture at a glance</title>
+  <desc id="hub-platform-d">Your application and the k9o CLI call the Kilimanjaro API Gateway, which fronts the Governed Database, Keep, Pulse, Gate and Kibo, runs your agents and functions in the Firelock sandbox, and records every call in the audit trail. Your own KMS or HSM stays on your side and Kibo encrypts against it on your machine.</desc>
+  <style>
+    :root { --hs-10264a: #10264a; --hs-0b1b35: #0b1b35; --hs-8fb0ff: #8fb0ff; --hs-9db6e8: #9db6e8;
+  --hs-ffffff: #ffffff; --hs-b8cbf2: #b8cbf2; --hs-dbe7ff: #dbe7ff; --hs-eaf1ff: #eaf1ff;
+  --hs-1f3a6b: #1f3a6b; --hs-4f7cff: #4f7cff; --hs-7da2ff: #7da2ff; --hs-9ec0ff: #9ec0ff;
+  --hs-1a66ff: #1a66ff; --hs-34d399: #34d399; --hs-ff8f8f: #ff8f8f; --hs-onaccent: #ffffff; }
+  </style>
+  <rect x="0" y="0" width="1200" height="634" rx="16" fill="#0d1116"/>
+  <defs>
+    <marker id="hub-platform-ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" style="fill:var(--hs-8fb0ff)"/></marker>
+    <marker id="hub-platform-aa" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" style="fill:var(--hs-ffffff)"/></marker>
+  </defs>
+  <g font-family="Inter, 'Helvetica Neue', Helvetica, Arial, sans-serif">
+    <g transform="translate(136.0 22.0) scale(0.8)">
+    <rect x="30" y="60" width="380" height="670" rx="8" fill="none" stroke-width="2" stroke-dasharray="10 7" style="stroke:var(--hs-7da2ff)"/>
+    <text x="48" y="96" font-size="24" text-anchor="start" style="fill:var(--hs-9db6e8)">Your machine / your cloud</text>
+    <rect x="60" y="120" width="320" height="140" rx="6" stroke-width="2" style="fill:var(--hs-10264a);stroke:var(--hs-4f7cff)"/>
+    <text x="220.0" y="163" font-size="28" font-weight="700" text-anchor="middle" style="fill:var(--hs-eaf1ff)">Your application</text>
+    <text x="220.0" y="199" font-size="24" text-anchor="middle" style="fill:var(--hs-b8cbf2)">SDK or k9o CLI</text>
+    <text x="220.0" y="235" font-size="24" text-anchor="middle" style="fill:var(--hs-b8cbf2)">8 languages + mobile</text>
+    <rect x="60" y="450" width="320" height="140" rx="6" stroke-width="2" style="fill:var(--hs-10264a);stroke:var(--hs-4f7cff)"/>
+    <text x="220.0" y="493" font-size="28" font-weight="700" text-anchor="middle" style="fill:var(--hs-eaf1ff)">Your KMS / HSM</text>
+    <text x="220.0" y="529" font-size="24" text-anchor="middle" style="fill:var(--hs-b8cbf2)">keys stay with you</text>
+    <text x="220.0" y="565" font-size="24" text-anchor="middle" style="fill:var(--hs-b8cbf2)">in BYOK / HYOK mode</text>
+    <path d="M110 262 V448" fill="none" stroke-width="2.5" marker-start="url(#hub-platform-ah)" marker-end="url(#hub-platform-ah)" style="stroke:var(--hs-8fb0ff)"/>
+    <text x="134" y="344" font-size="24" text-anchor="start" style="fill:var(--hs-b8cbf2)">Kibo encrypts and</text>
+    <text x="134" y="376" font-size="24" text-anchor="start" style="fill:var(--hs-b8cbf2)">decrypts in your app</text>
+    <path d="M382 190 H438" fill="none" stroke-width="2.5" marker-end="url(#hub-platform-ah)" style="stroke:var(--hs-8fb0ff)"/>
+    <rect x="440" y="62" width="240" height="492" rx="6" stroke-width="2" style="fill:var(--hs-1a66ff);stroke:var(--hs-9ec0ff)"/>
+    <text x="560" y="245" font-size="28" text-anchor="middle" font-weight="700" style="fill:var(--hs-onaccent)">API</text>
+    <text x="560" y="281" font-size="28" text-anchor="middle" font-weight="700" style="fill:var(--hs-onaccent)">Gateway</text>
+    <text x="560" y="317" font-size="24" text-anchor="middle" style="fill:var(--hs-dbe7ff)">in your region</text>
+    <text x="560" y="353" font-size="24" text-anchor="middle" style="fill:var(--hs-dbe7ff)">or your</text>
+    <text x="560" y="389" font-size="24" text-anchor="middle" style="fill:var(--hs-dbe7ff)">environment</text>
+    <path d="M682 108 H718" fill="none" stroke-width="2.5" marker-end="url(#hub-platform-ah)" style="stroke:var(--hs-8fb0ff)"/>
+    <rect x="720" y="62" width="410" height="92" rx="6" stroke-width="2" style="fill:var(--hs-10264a);stroke:var(--hs-4f7cff)"/>
+    <text x="745" y="100" font-size="28" text-anchor="start" font-weight="700" style="fill:var(--hs-eaf1ff)">Keep</text>
+    <text x="745" y="134" font-size="24" text-anchor="start" style="fill:var(--hs-b8cbf2)">AI security and governance</text>
+    <path d="M682 208 H718" fill="none" stroke-width="2.5" marker-end="url(#hub-platform-ah)" style="stroke:var(--hs-8fb0ff)"/>
+    <rect x="720" y="162" width="410" height="92" rx="6" stroke-width="2" style="fill:var(--hs-10264a);stroke:var(--hs-4f7cff)"/>
+    <text x="745" y="200" font-size="28" text-anchor="start" font-weight="700" style="fill:var(--hs-eaf1ff)">Pulse</text>
+    <text x="745" y="234" font-size="24" text-anchor="start" style="fill:var(--hs-b8cbf2)">Streams, analytics, live feeds</text>
+    <path d="M682 308 H718" fill="none" stroke-width="2.5" marker-end="url(#hub-platform-ah)" style="stroke:var(--hs-8fb0ff)"/>
+    <rect x="720" y="262" width="410" height="92" rx="6" stroke-width="2" style="fill:var(--hs-10264a);stroke:var(--hs-4f7cff)"/>
+    <text x="745" y="300" font-size="28" text-anchor="start" font-weight="700" style="fill:var(--hs-eaf1ff)">Gate</text>
+    <text x="745" y="334" font-size="24" text-anchor="start" style="fill:var(--hs-b8cbf2)">Sign-in, sessions, scoping</text>
+    <path d="M682 408 H718" fill="none" stroke-width="2.5" marker-end="url(#hub-platform-ah)" style="stroke:var(--hs-8fb0ff)"/>
+    <rect x="720" y="362" width="410" height="92" rx="6" stroke-width="2" style="fill:var(--hs-10264a);stroke:var(--hs-4f7cff)"/>
+    <text x="745" y="400" font-size="28" text-anchor="start" font-weight="700" style="fill:var(--hs-eaf1ff)">Kibo</text>
+    <text x="745" y="434" font-size="24" text-anchor="start" style="fill:var(--hs-b8cbf2)">Secrets vault, key operations</text>
+    <path d="M682 508 H718" fill="none" stroke-width="2.5" marker-end="url(#hub-platform-ah)" style="stroke:var(--hs-8fb0ff)"/>
+    <rect x="720" y="462" width="410" height="92" rx="6" stroke-width="2" style="fill:var(--hs-10264a);stroke:var(--hs-4f7cff)"/>
+    <text x="745" y="500" font-size="28" text-anchor="start" font-weight="700" style="fill:var(--hs-eaf1ff)">Governed Database</text>
+    <text x="745" y="534" font-size="24" text-anchor="start" style="fill:var(--hs-b8cbf2)">SQL, NoSQL, full-text, vectors</text>
+    <path d="M562 556 V595" fill="none" stroke-width="2.5" marker-start="url(#hub-platform-ah)" marker-end="url(#hub-platform-ah)" style="stroke:var(--hs-8fb0ff)"/>
+    <rect x="424" y="597" width="276" height="135" rx="6" stroke-width="2" style="fill:var(--hs-10264a);stroke:var(--hs-4f7cff)"/>
+    <text x="562.0" y="638" font-size="28" font-weight="700" text-anchor="middle" style="fill:var(--hs-eaf1ff)">Firelock</text>
+    <text x="562.0" y="674" font-size="24" text-anchor="middle" style="fill:var(--hs-b8cbf2)">Sandbox for</text>
+    <text x="562.0" y="710" font-size="24" text-anchor="middle" style="fill:var(--hs-b8cbf2)">agents &amp; functions</text>
+    <path d="M682 530 H712 V664 H768" fill="none" stroke-width="2.5" marker-end="url(#hub-platform-aa)" style="stroke:var(--hs-ffffff)"/>
+    <path d="M1132 208 H1160 M1132 308 H1160 M1132 408 H1160 M1132 508 H1160" fill="none" stroke-width="2.5" style="stroke:var(--hs-ffffff)"/>
+    <path d="M1132 108 H1160 V664 H1132" fill="none" stroke-width="2.5" marker-end="url(#hub-platform-aa)" style="stroke:var(--hs-ffffff)"/>
+    <rect x="770" y="597" width="360" height="135" rx="6" stroke-width="2" style="fill:var(--hs-10264a);stroke:var(--hs-ffffff)"/>
+    <text x="950.0" y="638" font-size="28" font-weight="700" text-anchor="middle" style="fill:var(--hs-ffffff)">Audit trail</text>
+    <text x="950.0" y="674" font-size="24" text-anchor="middle" style="fill:var(--hs-b8cbf2)">changes and</text>
+    <text x="950.0" y="710" font-size="24" text-anchor="middle" style="fill:var(--hs-b8cbf2)">access decisions</text>
+    </g>
+    <g transform="translate(1136 20) scale(0.0703)" role="img" aria-label="Kilimanjaro">
+      <polygon points="256,37.2 441.248,358.064 70.752,358.064" fill="#1A66FF"/>
+      <polygon points="57.392,375.608 114.784,474.8 0,474.8" style="fill:var(--hs-ffffff)"/>
+      <polygon points="189.8,375.608 247.192,474.8 132.408,474.8" style="fill:var(--hs-ffffff)"/>
+      <polygon points="322.2,375.608 379.592,474.8 264.808,474.8" style="fill:var(--hs-ffffff)"/>
+      <polygon points="454.608,375.608 512,474.8 397.216,474.8" style="fill:var(--hs-ffffff)"/>
+    </g>
+  </g>
+</svg>

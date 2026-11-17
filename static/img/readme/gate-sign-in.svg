@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 476" width="1200" height="476" role="img" aria-labelledby="t d">
+  <title id="t">Gate sign-in</title>
+  <desc id="d">An end user signs in through your app with @k9o/gate. Gate issues a session with an access token. Your app sends the access token to your API, which verifies it with the SDK, using Gate&#x27;s signing keys, before it serves the request.</desc>
+  <defs>
+    <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#8fb0ff"/></marker>
+    <marker id="aa" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#ffffff"/></marker>
+  </defs>
+  <rect x="0" y="0" width="1200" height="476" rx="16" fill="#0d1116"/>
+  <g font-family="Inter, 'Helvetica Neue', Helvetica, Arial, sans-serif">
+    <g transform="translate(120.0 -14.0) scale(0.8)">
+    <rect x="30" y="120" width="200" height="140" rx="6" fill="#10264a" stroke="#4f7cff" stroke-width="2"/>
+    <text x="130.0" y="199" font-size="28" font-weight="700" fill="#eaf1ff" text-anchor="middle">End user</text>
+    <path d="M232 190 H358" fill="none" stroke="#8fb0ff" stroke-width="2.5" marker-end="url(#ah)"/>
+    <rect x="360" y="120" width="300" height="140" rx="6" fill="#10264a" stroke="#4f7cff" stroke-width="2"/>
+    <text x="510.0" y="181" font-size="28" font-weight="700" fill="#eaf1ff" text-anchor="middle">Your app</text>
+    <text x="510.0" y="217" font-size="24" fill="#b8cbf2" text-anchor="middle">@k9o/gate</text>
+    <path d="M662 160 H848" fill="none" stroke="#8fb0ff" stroke-width="2.5" marker-end="url(#ah)"/>
+    <text x="755" y="148" font-size="24" fill="#ffffff" text-anchor="middle">1 signIn</text>
+    <path d="M848 225 H662" fill="none" stroke="#8fb0ff" stroke-width="2.5" marker-end="url(#ah)"/>
+    <text x="755" y="262" font-size="24" fill="#ffffff" text-anchor="middle">2 session</text>
+    <rect x="850" y="105" width="320" height="170" rx="6" fill="#1a66ff" stroke="#9ec0ff" stroke-width="2"/>
+    <text x="1010.0" y="163" font-size="28" font-weight="700" fill="#ffffff" text-anchor="middle">Gate</text>
+    <text x="1010.0" y="199" font-size="24" fill="#dbe7ff" text-anchor="middle">issues the session:</text>
+    <text x="1010.0" y="235" font-size="24" fill="#dbe7ff" text-anchor="middle">access, refresh tokens</text>
+    <path d="M510 262 V438" fill="none" stroke="#8fb0ff" stroke-width="2.5" marker-end="url(#ah)"/>
+    <text x="530" y="360" font-size="24" fill="#b8cbf2" text-anchor="start">3 request + access token</text>
+    <rect x="360" y="440" width="300" height="140" rx="6" fill="#10264a" stroke="#4f7cff" stroke-width="2"/>
+    <text x="510.0" y="483" font-size="28" font-weight="700" fill="#eaf1ff" text-anchor="middle">Your API</text>
+    <text x="510.0" y="519" font-size="24" fill="#b8cbf2" text-anchor="middle">verifies the token</text>
+    <text x="510.0" y="555" font-size="24" fill="#b8cbf2" text-anchor="middle">with the SDK</text>
+    <path d="M662 510 H1010 V277" fill="none" stroke="#8fb0ff" stroke-width="2.5" marker-end="url(#ah)"/>
+    <text x="695" y="492" font-size="24" fill="#b8cbf2" text-anchor="start">4 fetch signing keys</text>
+    <path d="M358 510 H282" fill="none" stroke="#8fb0ff" stroke-width="2.5" marker-end="url(#ah)"/>
+    <rect x="30" y="440" width="250" height="140" rx="6" fill="#10264a" stroke="#ffffff" stroke-width="2"/>
+    <text x="155.0" y="483" font-size="28" font-weight="700" fill="#ffffff" text-anchor="middle">Request</text>
+    <text x="155.0" y="519" font-size="24" fill="#b8cbf2" text-anchor="middle">served only if</text>
+    <text x="155.0" y="555" font-size="24" fill="#b8cbf2" text-anchor="middle">the token is valid</text>
+    </g>
+    <g transform="translate(1136 20) scale(0.0703)" role="img" aria-label="Kilimanjaro">
+      <polygon points="256,37.2 441.248,358.064 70.752,358.064" fill="#1A66FF"/>
+      <polygon points="57.392,375.608 114.784,474.8 0,474.8" fill="#FFFFFF"/>
+      <polygon points="189.8,375.608 247.192,474.8 132.408,474.8" fill="#FFFFFF"/>
+      <polygon points="322.2,375.608 379.592,474.8 264.808,474.8" fill="#FFFFFF"/>
+      <polygon points="454.608,375.608 512,474.8 397.216,474.8" fill="#FFFFFF"/>
+    </g>
+  </g>
+</svg>

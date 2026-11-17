@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 574" width="1200" height="574" role="img" aria-labelledby="t d">
+  <title id="t">Approvals flow</title>
+  <desc id="d">A change is proposed and held as pending_approval. A second person, a project admin or auditor, approves or rejects it. The change is applied only after approval. The person who proposed a change cannot approve it.</desc>
+  <defs>
+    <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#8fb0ff"/></marker>
+    <marker id="aa" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#ffffff"/></marker>
+  </defs>
+  <rect x="0" y="0" width="1200" height="574" rx="16" fill="#0d1116"/>
+  <g font-family="Inter, 'Helvetica Neue', Helvetica, Arial, sans-serif">
+    <g transform="translate(120.0 20.4) scale(0.8)">
+    <rect x="25" y="62" width="1150" height="258" rx="8" fill="none" stroke="#7da2ff" stroke-width="2" stroke-dasharray="10 7"/>
+    <rect x="25" y="350" width="1150" height="310" rx="8" fill="none" stroke="#7da2ff" stroke-width="2" stroke-dasharray="10 7"/>
+    <text x="45" y="90" font-size="26" fill="#9db6e8" text-anchor="start">Person who proposes</text>
+    <text x="45" y="395" font-size="26" fill="#9db6e8" text-anchor="start">Second person: project admin or auditor</text>
+    <rect x="30" y="135" width="320" height="130" rx="6" fill="#10264a" stroke="#4f7cff" stroke-width="2"/>
+    <text x="190.0" y="191" font-size="26" font-weight="700" fill="#eaf1ff" text-anchor="middle">Propose a change</text>
+    <text x="190.0" y="227" font-size="24" fill="#b8cbf2" text-anchor="middle">insert, update or delete</text>
+    <path d="M352 200 H428" fill="none" stroke="#8fb0ff" stroke-width="2.5" marker-end="url(#ah)"/>
+    <rect x="430" y="135" width="310" height="130" rx="6" fill="#10264a" stroke="#4f7cff" stroke-width="2"/>
+    <text x="585.0" y="173" font-size="28" font-weight="700" fill="#eaf1ff" text-anchor="middle">pending_approval</text>
+    <text x="585.0" y="209" font-size="24" fill="#b8cbf2" text-anchor="middle">held in the queue,</text>
+    <text x="585.0" y="245" font-size="24" fill="#b8cbf2" text-anchor="middle">nothing written</text>
+    <rect x="840" y="135" width="300" height="130" rx="6" fill="#0b1b35" stroke="#3a5890" stroke-width="2"/>
+    <text x="990.0" y="191" font-size="26" font-weight="700" fill="#b8cbf2" text-anchor="middle">Cannot approve</text>
+    <text x="990.0" y="227" font-size="24" fill="#9db6e8" text-anchor="middle">their own change</text>
+    <path d="M585 267 V448" fill="none" stroke="#8fb0ff" stroke-width="2.5" marker-end="url(#ah)"/>
+    <rect x="430" y="450" width="310" height="130" rx="6" fill="#10264a" stroke="#4f7cff" stroke-width="2"/>
+    <text x="585.0" y="488" font-size="28" font-weight="700" fill="#eaf1ff" text-anchor="middle">Approve or reject</text>
+    <text x="585.0" y="524" font-size="24" fill="#b8cbf2" text-anchor="middle">sees every change</text>
+    <text x="585.0" y="560" font-size="24" fill="#b8cbf2" text-anchor="middle">in the queue</text>
+    <path d="M742 515 H790 V440 H838 M790 515 V565 H838" fill="none" stroke="#8fb0ff" stroke-width="2.5"/>
+    <path d="M790 440 H838" fill="none" stroke="#8fb0ff" stroke-width="2.5" marker-end="url(#ah)"/>
+    <path d="M790 565 H838" fill="none" stroke="#8fb0ff" stroke-width="2.5" marker-end="url(#ah)"/>
+    <rect x="840" y="395" width="300" height="90" rx="6" fill="#1a66ff" stroke="#9ec0ff" stroke-width="2"/>
+    <text x="990.0" y="431" font-size="28" font-weight="700" fill="#ffffff" text-anchor="middle">Applied</text>
+    <text x="990.0" y="467" font-size="24" fill="#dbe7ff" text-anchor="middle">only after approval</text>
+    <rect x="840" y="520" width="300" height="90" rx="6" fill="#10264a" stroke="#4f7cff" stroke-width="2"/>
+    <text x="990.0" y="556" font-size="28" font-weight="700" fill="#eaf1ff" text-anchor="middle">Rejected</text>
+    <text x="990.0" y="592" font-size="24" fill="#b8cbf2" text-anchor="middle">with a reason</text>
+    <text x="60" y="450" font-size="24" fill="#b8cbf2" text-anchor="start">Members see only</text>
+    <text x="60" y="484" font-size="24" fill="#b8cbf2" text-anchor="start">the changes they</text>
+    <text x="60" y="518" font-size="24" fill="#b8cbf2" text-anchor="start">proposed</text>
+    </g>
+    <g transform="translate(1136 20) scale(0.0703)" role="img" aria-label="Kilimanjaro">
+      <polygon points="256,37.2 441.248,358.064 70.752,358.064" fill="#1A66FF"/>
+      <polygon points="57.392,375.608 114.784,474.8 0,474.8" fill="#FFFFFF"/>
+      <polygon points="189.8,375.608 247.192,474.8 132.408,474.8" fill="#FFFFFF"/>
+      <polygon points="322.2,375.608 379.592,474.8 264.808,474.8" fill="#FFFFFF"/>
+      <polygon points="454.608,375.608 512,474.8 397.216,474.8" fill="#FFFFFF"/>
+    </g>
+  </g>
+</svg>
