@@ -1,0 +1,36 @@
+# Project key (KEK)
+# Crypto-shredding the project key. One verb, no qualifier.
+#
+# Surface:   kek
+# Qualifier: none (the surface has no qualifier)
+# Actions:   zeroize
+#
+# This file holds two YAML documents. The first is a policy bundle: named rules
+# with approvals and step-up proof, referenced from policy.kek. The second is an
+# IAM policy: the principal-bound ceiling, limited to `when` and `action: allow|deny`.
+# The ceiling is evaluated first; the bundle can only narrow it.
+
+rules:
+  - name: kek-admin-with-fresh-proof
+    when:
+      contains: [subject.roles, "PROJECT_ADMIN"]
+    action: allow
+    requires_proof: { max_age: "5m", min_tier: T3_KEY_POSSESSION, single_use: true }
+
+policy:
+  kek:
+    actions:
+      zeroize:
+        - kek-admin-with-fresh-proof
+---
+# IAM policy: the ceiling. It grants entitlement and carries no approvals or proofs.
+rules:
+  - name: kek-ceiling-from-office-network
+    when:
+      in_cidr: [environment.ip, ["203.0.113.0/24", "2001:db8::/32"]]
+    action: allow
+
+applications:
+  kek:
+    actions:
+      zeroize: [kek-ceiling-from-office-network]

@@ -1,0 +1,65 @@
+# Workflows
+# Workflow authoring and runs.
+#
+# Surface:   workflows
+# Qualifier: wfl_7Hk2mQ9xTaBn
+# Actions:   create, read, update, delete, invoke
+#
+# This file holds two YAML documents. The first is a policy bundle: named rules
+# with approvals and step-up proof, referenced from policy.workflows. The second is an
+# IAM policy: the principal-bound ceiling, limited to `when` and `action: allow|deny`.
+# The ceiling is evaluated first; the bundle can only narrow it.
+
+rules:
+  - name: workflows-readers
+    when:
+      or:
+        - contains: [subject.roles, "PROJECT_ADMIN"]
+        - contains: [subject.roles, "PROJECT_MEMBER"]
+        - contains: [subject.roles, "PROJECT_VIEWER"]
+    action: allow
+  - name: workflows-writers
+    when:
+      or:
+        - contains: [subject.roles, "PROJECT_ADMIN"]
+        - contains: [subject.roles, "PROJECT_EDITOR"]
+    action: allow
+  - name: workflows-needs-second-admin
+    when: true
+    requires_approval_from: { role: PROJECT_ADMIN }
+    expires_after: P2D
+
+policy:
+  workflows:
+    wfl_7Hk2mQ9xTaBn:
+      actions:
+        create:
+          - workflows-writers
+        read:
+          - workflows-readers
+        update:
+          - workflows-writers
+        delete:
+          - workflows-needs-second-admin
+        invoke:
+          - workflows-writers
+---
+# IAM policy: the ceiling. It grants entitlement and carries no approvals or proofs.
+rules:
+  - name: workflows-ceiling-allow
+    when: true
+    action: allow
+  - name: workflows-ceiling-from-office-network
+    when:
+      in_cidr: [environment.ip, ["203.0.113.0/24", "2001:db8::/32"]]
+    action: allow
+
+applications:
+  workflows:
+    wfl_7Hk2mQ9xTaBn:
+      actions:
+        create: [workflows-ceiling-allow]
+        read: [workflows-ceiling-allow]
+        update: [workflows-ceiling-allow]
+        delete: [workflows-ceiling-from-office-network]
+        invoke: [workflows-ceiling-allow]

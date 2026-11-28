@@ -1,0 +1,52 @@
+# Magic-link redirects
+# The allowlist of magic-link redirect URLs.
+#
+# Surface:   magic_link_redirects
+# Qualifier: none (the surface has no qualifier)
+# Actions:   create, read, delete
+#
+# This file holds two YAML documents. The first is a policy bundle: named rules
+# with approvals and step-up proof, referenced from policy.magic_link_redirects. The second is an
+# IAM policy: the principal-bound ceiling, limited to `when` and `action: allow|deny`.
+# The ceiling is evaluated first; the bundle can only narrow it.
+
+rules:
+  - name: magic-link-redirects-readers
+    when:
+      contains: [subject.roles, "PROJECT_ADMIN"]
+    action: allow
+  - name: magic-link-redirects-writers
+    when:
+      contains: [subject.roles, "PROJECT_ADMIN"]
+    action: allow
+  - name: magic-link-redirects-needs-second-admin
+    when: true
+    requires_approval_from: { role: PROJECT_ADMIN }
+    expires_after: P2D
+
+policy:
+  magic_link_redirects:
+    actions:
+      create:
+        - magic-link-redirects-writers
+      read:
+        - magic-link-redirects-readers
+      delete:
+        - magic-link-redirects-needs-second-admin
+---
+# IAM policy: the ceiling. It grants entitlement and carries no approvals or proofs.
+rules:
+  - name: magic-link-redirects-ceiling-allow
+    when: true
+    action: allow
+  - name: magic-link-redirects-ceiling-from-office-network
+    when:
+      in_cidr: [environment.ip, ["203.0.113.0/24", "2001:db8::/32"]]
+    action: allow
+
+applications:
+  magic_link_redirects:
+    actions:
+      create: [magic-link-redirects-ceiling-allow]
+      read: [magic-link-redirects-ceiling-allow]
+      delete: [magic-link-redirects-ceiling-from-office-network]

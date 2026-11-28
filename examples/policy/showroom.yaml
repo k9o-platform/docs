@@ -1,0 +1,61 @@
+# Showroom
+# The demo-provisioning surface.
+#
+# Surface:   showroom
+# Qualifier: none (the surface has no qualifier)
+# Actions:   read, provision, agent_invoke, probe_write, demo_pats, background_fill, materialize
+#
+# This file holds two YAML documents. The first is a policy bundle: named rules
+# with approvals and step-up proof, referenced from policy.showroom. The second is an
+# IAM policy: the principal-bound ceiling, limited to `when` and `action: allow|deny`.
+# The ceiling is evaluated first; the bundle can only narrow it.
+
+rules:
+  - name: showroom-readers
+    when:
+      or:
+        - contains: [subject.roles, "PROJECT_ADMIN"]
+        - contains: [subject.roles, "PROJECT_MEMBER"]
+        - contains: [subject.roles, "PROJECT_VIEWER"]
+    action: allow
+  - name: showroom-writers
+    when:
+      or:
+        - contains: [subject.roles, "PROJECT_ADMIN"]
+        - contains: [subject.roles, "PROJECT_EDITOR"]
+    action: allow
+
+policy:
+  showroom:
+    actions:
+      read:
+        - showroom-readers
+      provision:
+        - showroom-writers
+      agent_invoke:
+        - showroom-writers
+      probe_write:
+        - showroom-writers
+      demo_pats:
+        - showroom-writers
+      background_fill:
+        - showroom-writers
+      materialize:
+        - showroom-writers
+---
+# IAM policy: the ceiling. It grants entitlement and carries no approvals or proofs.
+rules:
+  - name: showroom-ceiling-allow
+    when: true
+    action: allow
+
+applications:
+  showroom:
+    actions:
+      read: [showroom-ceiling-allow]
+      provision: [showroom-ceiling-allow]
+      agent_invoke: [showroom-ceiling-allow]
+      probe_write: [showroom-ceiling-allow]
+      demo_pats: [showroom-ceiling-allow]
+      background_fill: [showroom-ceiling-allow]
+      materialize: [showroom-ceiling-allow]

@@ -1,0 +1,44 @@
+# Trust-tier policy
+# The project trust-tier policy.
+#
+# Surface:   trust_tier_policy
+# Qualifier: none (the surface has no qualifier)
+# Actions:   read, set
+#
+# This file holds two YAML documents. The first is a policy bundle: named rules
+# with approvals and step-up proof, referenced from policy.trust_tier_policy. The second is an
+# IAM policy: the principal-bound ceiling, limited to `when` and `action: allow|deny`.
+# The ceiling is evaluated first; the bundle can only narrow it.
+
+rules:
+  - name: trust-tier-policy-readers
+    when:
+      or:
+        - contains: [subject.roles, "PROJECT_ADMIN"]
+        - contains: [subject.roles, "PROJECT_AUDITOR"]
+    action: allow
+  - name: trust-tier-policy-admin-with-fresh-proof
+    when:
+      contains: [subject.roles, "PROJECT_ADMIN"]
+    action: allow
+    requires_proof: { max_age: "5m", min_tier: T3_KEY_POSSESSION, single_use: true }
+
+policy:
+  trust_tier_policy:
+    actions:
+      read:
+        - trust-tier-policy-readers
+      set:
+        - trust-tier-policy-admin-with-fresh-proof
+---
+# IAM policy: the ceiling. It grants entitlement and carries no approvals or proofs.
+rules:
+  - name: trust-tier-policy-ceiling-allow
+    when: true
+    action: allow
+
+applications:
+  trust_tier_policy:
+    actions:
+      read: [trust-tier-policy-ceiling-allow]
+      set: [trust-tier-policy-ceiling-allow]

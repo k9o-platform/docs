@@ -1,0 +1,68 @@
+# Policy bundles
+# The policy bundle lifecycle, including publish and rollback.
+#
+# Surface:   policies
+# Qualifier: pol_6Fd2gHj9KlYu
+# Actions:   create, read, update, delete, publish, rollback
+#
+# This file holds two YAML documents. The first is a policy bundle: named rules
+# with approvals and step-up proof, referenced from policy.policies. The second is an
+# IAM policy: the principal-bound ceiling, limited to `when` and `action: allow|deny`.
+# The ceiling is evaluated first; the bundle can only narrow it.
+# Publish and rollback are platform-schema-only: grantable only from a platform-managed
+# IAM policy, so they appear in the bundle but not in this customer-style IAM policy.
+
+rules:
+  - name: policies-readers
+    when:
+      contains: [subject.roles, "PROJECT_ADMIN"]
+    action: allow
+  - name: policies-writers
+    when:
+      contains: [subject.roles, "PROJECT_ADMIN"]
+    action: allow
+  - name: policies-admin-with-fresh-proof
+    when:
+      contains: [subject.roles, "PROJECT_ADMIN"]
+    action: allow
+    requires_proof: { max_age: "5m", min_tier: T3_KEY_POSSESSION, single_use: true }
+  - name: policies-needs-second-admin
+    when: true
+    requires_approval_from: { role: PROJECT_ADMIN }
+    expires_after: P2D
+
+policy:
+  policies:
+    pol_6Fd2gHj9KlYu:
+      actions:
+        create:
+          - policies-writers
+        read:
+          - policies-readers
+        update:
+          - policies-writers
+        delete:
+          - policies-needs-second-admin
+        publish:
+          - policies-admin-with-fresh-proof
+        rollback:
+          - policies-needs-second-admin
+---
+# IAM policy: the ceiling. It grants entitlement and carries no approvals or proofs.
+rules:
+  - name: policies-ceiling-allow
+    when: true
+    action: allow
+  - name: policies-ceiling-from-office-network
+    when:
+      in_cidr: [environment.ip, ["203.0.113.0/24", "2001:db8::/32"]]
+    action: allow
+
+applications:
+  policies:
+    pol_6Fd2gHj9KlYu:
+      actions:
+        create: [policies-ceiling-allow]
+        read: [policies-ceiling-allow]
+        update: [policies-ceiling-allow]
+        delete: [policies-ceiling-from-office-network]

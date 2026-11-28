@@ -1,0 +1,73 @@
+# Streams
+# Operations on a user-defined stream.
+#
+# Surface:   streams
+# Qualifier: order-events
+# Actions:   create, read, delete, publish, subscribe, replay
+#
+# This file holds two YAML documents. The first is a policy bundle: named rules
+# with approvals and step-up proof, referenced from policy.streams. The second is an
+# IAM policy: the principal-bound ceiling, limited to `when` and `action: allow|deny`.
+# The ceiling is evaluated first; the bundle can only narrow it.
+
+rules:
+  - name: streams-readers
+    when:
+      or:
+        - contains: [subject.roles, "PROJECT_ADMIN"]
+        - contains: [subject.roles, "PROJECT_MEMBER"]
+        - contains: [subject.roles, "PROJECT_VIEWER"]
+    action: allow
+  - name: streams-writers
+    when:
+      or:
+        - contains: [subject.roles, "PROJECT_ADMIN"]
+        - contains: [subject.roles, "PROJECT_EDITOR"]
+    action: allow
+  - name: streams-admin-with-fresh-proof
+    when:
+      contains: [subject.roles, "PROJECT_ADMIN"]
+    action: allow
+    requires_proof: { max_age: "5m", min_tier: T3_KEY_POSSESSION, single_use: true }
+  - name: streams-needs-second-admin
+    when: true
+    requires_approval_from: { role: PROJECT_ADMIN }
+    expires_after: P2D
+
+policy:
+  streams:
+    order-events:
+      actions:
+        create:
+          - streams-writers
+        read:
+          - streams-readers
+        delete:
+          - streams-needs-second-admin
+        publish:
+          - streams-admin-with-fresh-proof
+        subscribe:
+          - streams-readers
+        replay:
+          - streams-readers
+---
+# IAM policy: the ceiling. It grants entitlement and carries no approvals or proofs.
+rules:
+  - name: streams-ceiling-allow
+    when: true
+    action: allow
+  - name: streams-ceiling-from-office-network
+    when:
+      in_cidr: [environment.ip, ["203.0.113.0/24", "2001:db8::/32"]]
+    action: allow
+
+applications:
+  streams:
+    order-events:
+      actions:
+        create: [streams-ceiling-allow]
+        read: [streams-ceiling-allow]
+        delete: [streams-ceiling-from-office-network]
+        publish: [streams-ceiling-allow]
+        subscribe: [streams-ceiling-allow]
+        replay: [streams-ceiling-allow]

@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 568" width="1200" height="568" role="img" aria-labelledby="t d">
+  <title id="t">Barbican local guardrails</title>
+  <desc id="d">A prompt from your app passes through input defense, which returns a verdict, then your model, then output redaction, then back to your app. The input defense and output redaction steps run in your own process, with no backend, no account and no network.</desc>
+  <defs>
+    <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#8fb0ff"/></marker>
+    <marker id="aa" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#ffffff"/></marker>
+  </defs>
+  <rect x="0" y="0" width="1200" height="568" rx="16" fill="#0d1116"/>
+  <g font-family="Inter, 'Helvetica Neue', Helvetica, Arial, sans-serif">
+    <g transform="translate(124.0 22.0) scale(0.8)">
+    <rect x="20" y="60" width="730" height="590" rx="8" fill="none" stroke="#ffffff" stroke-width="2" stroke-dasharray="10 7"/>
+    <text x="45" y="102" font-size="26" fill="#ffffff" text-anchor="start">Your process: no backend, no account, no network</text>
+    <rect x="50" y="300" width="220" height="130" rx="6" fill="#10264a" stroke="#4f7cff" stroke-width="2"/>
+    <text x="160.0" y="338" font-size="28" font-weight="700" fill="#eaf1ff" text-anchor="middle">Your app</text>
+    <text x="160.0" y="374" font-size="24" fill="#b8cbf2" text-anchor="middle">prompt in,</text>
+    <text x="160.0" y="410" font-size="24" fill="#b8cbf2" text-anchor="middle">safe text out</text>
+    <rect x="400" y="150" width="320" height="130" rx="6" fill="#1a66ff" stroke="#9ec0ff" stroke-width="2"/>
+    <text x="560.0" y="188" font-size="28" font-weight="700" fill="#ffffff" text-anchor="middle">Input defense</text>
+    <text x="560.0" y="224" font-size="24" fill="#dbe7ff" text-anchor="middle">returns a verdict:</text>
+    <text x="560.0" y="260" font-size="24" fill="#dbe7ff" text-anchor="middle">allow, deny or suspect</text>
+    <rect x="400" y="470" width="320" height="130" rx="6" fill="#1a66ff" stroke="#9ec0ff" stroke-width="2"/>
+    <text x="560.0" y="508" font-size="28" font-weight="700" fill="#ffffff" text-anchor="middle">Output redaction</text>
+    <text x="560.0" y="544" font-size="24" fill="#dbe7ff" text-anchor="middle">removes secrets</text>
+    <text x="560.0" y="580" font-size="24" fill="#dbe7ff" text-anchor="middle">and PII as it streams</text>
+    <rect x="880" y="300" width="290" height="130" rx="6" fill="#10264a" stroke="#4f7cff" stroke-width="2"/>
+    <text x="1025.0" y="356" font-size="28" font-weight="700" fill="#eaf1ff" text-anchor="middle">Your model</text>
+    <text x="1025.0" y="392" font-size="24" fill="#b8cbf2" text-anchor="middle">called by your code</text>
+    <path d="M160 298 V215 H398" fill="none" stroke="#8fb0ff" stroke-width="2.5" marker-end="url(#ah)"/>
+    <path d="M722 215 H1025 V298" fill="none" stroke="#8fb0ff" stroke-width="2.5" marker-end="url(#ah)"/>
+    <path d="M1025 432 V535 H722" fill="none" stroke="#8fb0ff" stroke-width="2.5" marker-end="url(#ah)"/>
+    <path d="M398 535 H160 V432" fill="none" stroke="#8fb0ff" stroke-width="2.5" marker-end="url(#ah)"/>
+    </g>
+    <g transform="translate(1136 20) scale(0.0703)" role="img" aria-label="Kilimanjaro">
+      <polygon points="256,37.2 441.248,358.064 70.752,358.064" fill="#1A66FF"/>
+      <polygon points="57.392,375.608 114.784,474.8 0,474.8" fill="#FFFFFF"/>
+      <polygon points="189.8,375.608 247.192,474.8 132.408,474.8" fill="#FFFFFF"/>
+      <polygon points="322.2,375.608 379.592,474.8 264.808,474.8" fill="#FFFFFF"/>
+      <polygon points="454.608,375.608 512,474.8 397.216,474.8" fill="#FFFFFF"/>
+    </g>
+  </g>
+</svg>

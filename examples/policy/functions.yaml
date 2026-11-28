@@ -1,0 +1,67 @@
+# Functions
+# Function invocation and function lifecycle.
+#
+# Surface:   functions
+# Qualifier: billing.reconcile
+# Actions:   invoke, deploy, read, delete
+#
+# This file holds two YAML documents. The first is a policy bundle: named rules
+# with approvals and step-up proof, referenced from policy.functions. The second is an
+# IAM policy: the principal-bound ceiling, limited to `when` and `action: allow|deny`.
+# The ceiling is evaluated first; the bundle can only narrow it.
+
+rules:
+  - name: functions-readers
+    when:
+      or:
+        - contains: [subject.roles, "PROJECT_ADMIN"]
+        - contains: [subject.roles, "PROJECT_MEMBER"]
+        - contains: [subject.roles, "PROJECT_VIEWER"]
+    action: allow
+  - name: functions-writers
+    when:
+      or:
+        - contains: [subject.roles, "PROJECT_ADMIN"]
+        - contains: [subject.roles, "PROJECT_EDITOR"]
+    action: allow
+  - name: functions-admins
+    when:
+      contains: [subject.roles, "PROJECT_ADMIN"]
+    action: allow
+  - name: functions-admin-with-fresh-proof
+    when:
+      contains: [subject.roles, "PROJECT_ADMIN"]
+    action: allow
+    requires_proof: { max_age: "5m", min_tier: T3_KEY_POSSESSION, single_use: true }
+
+policy:
+  functions:
+    billing.reconcile:
+      invoke:
+        - functions-admin-with-fresh-proof
+      actions:
+        deploy:
+          - functions-writers
+        read:
+          - functions-readers
+        delete:
+          - functions-admins
+---
+# IAM policy: the ceiling. It grants entitlement and carries no approvals or proofs.
+rules:
+  - name: functions-ceiling-allow
+    when: true
+    action: allow
+  - name: functions-ceiling-from-office-network
+    when:
+      in_cidr: [environment.ip, ["203.0.113.0/24", "2001:db8::/32"]]
+    action: allow
+
+applications:
+  functions:
+    billing.reconcile:
+      invoke: [functions-ceiling-allow]
+      actions:
+        deploy: [functions-ceiling-allow]
+        read: [functions-ceiling-allow]
+        delete: [functions-ceiling-from-office-network]

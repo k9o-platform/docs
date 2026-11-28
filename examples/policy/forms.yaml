@@ -1,0 +1,62 @@
+# Forms
+# Form authoring.
+#
+# Surface:   forms
+# Qualifier: frm_4Nd8sWp3RuCe
+# Actions:   create, read, update, delete
+#
+# This file holds two YAML documents. The first is a policy bundle: named rules
+# with approvals and step-up proof, referenced from policy.forms. The second is an
+# IAM policy: the principal-bound ceiling, limited to `when` and `action: allow|deny`.
+# The ceiling is evaluated first; the bundle can only narrow it.
+
+rules:
+  - name: forms-readers
+    when:
+      or:
+        - contains: [subject.roles, "PROJECT_ADMIN"]
+        - contains: [subject.roles, "PROJECT_MEMBER"]
+        - contains: [subject.roles, "PROJECT_VIEWER"]
+    action: allow
+  - name: forms-writers
+    when:
+      or:
+        - contains: [subject.roles, "PROJECT_ADMIN"]
+        - contains: [subject.roles, "PROJECT_EDITOR"]
+    action: allow
+  - name: forms-needs-second-admin
+    when: true
+    requires_approval_from: { role: PROJECT_ADMIN }
+    expires_after: P2D
+
+policy:
+  forms:
+    frm_4Nd8sWp3RuCe:
+      actions:
+        create:
+          - forms-writers
+        read:
+          - forms-readers
+        update:
+          - forms-writers
+        delete:
+          - forms-needs-second-admin
+---
+# IAM policy: the ceiling. It grants entitlement and carries no approvals or proofs.
+rules:
+  - name: forms-ceiling-allow
+    when: true
+    action: allow
+  - name: forms-ceiling-from-office-network
+    when:
+      in_cidr: [environment.ip, ["203.0.113.0/24", "2001:db8::/32"]]
+    action: allow
+
+applications:
+  forms:
+    frm_4Nd8sWp3RuCe:
+      actions:
+        create: [forms-ceiling-allow]
+        read: [forms-ceiling-allow]
+        update: [forms-ceiling-allow]
+        delete: [forms-ceiling-from-office-network]

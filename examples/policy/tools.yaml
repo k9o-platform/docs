@@ -1,0 +1,46 @@
+# Tools
+# Calls to a tool (MCP tool invocation), routed by name and classification.
+#
+# Surface:   tools
+# Qualifier: stripe_refund
+# Actions:   invoke
+#
+# This file holds two YAML documents. The first is a policy bundle: named rules
+# with approvals and step-up proof, referenced from policy.tools. The second is an
+# IAM policy: the principal-bound ceiling, limited to `when` and `action: allow|deny`.
+# The ceiling is evaluated first; the bundle can only narrow it.
+
+rules:
+  - name: stripe-refund-small-auto-allow
+    when:
+      and:
+        - eq: [tool.name, "stripe_refund"]
+        - lt: [args.amount_cents, 5000]
+        - lt: [cls.risk_score, 3000]
+    action: allow
+  - name: stripe-refund-large-needs-review
+    when:
+      or:
+        - gte: [args.amount_cents, 5000]
+        - gte: [cls.risk_score, 3000]
+    requires_approval_from: { role: PROJECT_ADMIN }
+    expires_after: PT4H
+
+policy:
+  tools:
+    stripe_refund:
+      invoke:
+        any_of:
+          - stripe-refund-small-auto-allow
+          - stripe-refund-large-needs-review
+---
+# IAM policy: the ceiling. It grants entitlement and carries no approvals or proofs.
+rules:
+  - name: tools-ceiling-allow
+    when: true
+    action: allow
+
+applications:
+  tools:
+    stripe_refund:
+      invoke: [tools-ceiling-allow]

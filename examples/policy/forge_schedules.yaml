@@ -1,0 +1,63 @@
+# Job schedules
+# Scheduled-job authoring and manual runs.
+#
+# Surface:   forge_schedules
+# Qualifier: none (the surface has no qualifier)
+# Actions:   create, read, update, delete, run
+#
+# This file holds two YAML documents. The first is a policy bundle: named rules
+# with approvals and step-up proof, referenced from policy.forge_schedules. The second is an
+# IAM policy: the principal-bound ceiling, limited to `when` and `action: allow|deny`.
+# The ceiling is evaluated first; the bundle can only narrow it.
+
+rules:
+  - name: forge-schedules-readers
+    when:
+      contains: [subject.roles, "PROJECT_ADMIN"]
+    action: allow
+  - name: forge-schedules-writers
+    when:
+      contains: [subject.roles, "PROJECT_ADMIN"]
+    action: allow
+  - name: forge-schedules-admin-with-fresh-proof
+    when:
+      contains: [subject.roles, "PROJECT_ADMIN"]
+    action: allow
+    requires_proof: { max_age: "5m", min_tier: T3_KEY_POSSESSION, single_use: true }
+  - name: forge-schedules-needs-second-admin
+    when: true
+    requires_approval_from: { role: PROJECT_ADMIN }
+    expires_after: P2D
+
+policy:
+  forge_schedules:
+    actions:
+      create:
+        - forge-schedules-writers
+      read:
+        - forge-schedules-readers
+      update:
+        - forge-schedules-writers
+      delete:
+        - forge-schedules-needs-second-admin
+      run:
+        - forge-schedules-admin-with-fresh-proof
+---
+# IAM policy: the ceiling. It grants entitlement and carries no approvals or proofs.
+rules:
+  - name: forge-schedules-ceiling-allow
+    when: true
+    action: allow
+  - name: forge-schedules-ceiling-from-office-network
+    when:
+      in_cidr: [environment.ip, ["203.0.113.0/24", "2001:db8::/32"]]
+    action: allow
+
+applications:
+  forge_schedules:
+    actions:
+      create: [forge-schedules-ceiling-allow]
+      read: [forge-schedules-ceiling-allow]
+      update: [forge-schedules-ceiling-allow]
+      delete: [forge-schedules-ceiling-from-office-network]
+      run: [forge-schedules-ceiling-allow]

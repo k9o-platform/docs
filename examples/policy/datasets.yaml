@@ -1,0 +1,68 @@
+# Analytics datasets
+# Per-dataset access on the analytics query path.
+#
+# Surface:   datasets
+# Qualifier: sales_daily
+# Actions:   query, create, read, list, delete, write
+#
+# This file holds two YAML documents. The first is a policy bundle: named rules
+# with approvals and step-up proof, referenced from policy.datasets. The second is an
+# IAM policy: the principal-bound ceiling, limited to `when` and `action: allow|deny`.
+# The ceiling is evaluated first; the bundle can only narrow it.
+
+rules:
+  - name: datasets-readers
+    when:
+      or:
+        - contains: [subject.roles, "PROJECT_ADMIN"]
+        - contains: [subject.roles, "PROJECT_MEMBER"]
+        - contains: [subject.roles, "PROJECT_VIEWER"]
+    action: allow
+  - name: datasets-writers
+    when:
+      or:
+        - contains: [subject.roles, "PROJECT_ADMIN"]
+        - contains: [subject.roles, "PROJECT_EDITOR"]
+    action: allow
+  - name: datasets-needs-second-admin
+    when: true
+    requires_approval_from: { role: PROJECT_ADMIN }
+    expires_after: P2D
+
+policy:
+  datasets:
+    sales_daily:
+      actions:
+        query:
+          - datasets-readers
+        create:
+          - datasets-writers
+        read:
+          - datasets-readers
+        list:
+          - datasets-readers
+        delete:
+          - datasets-needs-second-admin
+        write:
+          - datasets-writers
+---
+# IAM policy: the ceiling. It grants entitlement and carries no approvals or proofs.
+rules:
+  - name: datasets-ceiling-allow
+    when: true
+    action: allow
+  - name: datasets-ceiling-from-office-network
+    when:
+      in_cidr: [environment.ip, ["203.0.113.0/24", "2001:db8::/32"]]
+    action: allow
+
+applications:
+  datasets:
+    sales_daily:
+      actions:
+        query: [datasets-ceiling-allow]
+        create: [datasets-ceiling-allow]
+        read: [datasets-ceiling-allow]
+        list: [datasets-ceiling-allow]
+        delete: [datasets-ceiling-from-office-network]
+        write: [datasets-ceiling-allow]

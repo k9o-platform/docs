@@ -1,0 +1,36 @@
+# Collection actions
+# Dispatch of a custom action bound to a collection.
+#
+# Surface:   collection_actions
+# Qualifier: close_invoice
+# Actions:   invoke
+#
+# This file holds two YAML documents. The first is a policy bundle: named rules
+# with approvals and step-up proof, referenced from policy.collection_actions. The second is an
+# IAM policy: the principal-bound ceiling, limited to `when` and `action: allow|deny`.
+# The ceiling is evaluated first; the bundle can only narrow it.
+
+rules:
+  - name: collection-actions-writers
+    when:
+      or:
+        - contains: [subject.roles, "PROJECT_ADMIN"]
+        - contains: [subject.roles, "PROJECT_EDITOR"]
+    action: allow
+
+policy:
+  collection_actions:
+    close_invoice:
+      invoke:
+        - collection-actions-writers
+---
+# IAM policy: the ceiling. It grants entitlement and carries no approvals or proofs.
+rules:
+  - name: collection-actions-ceiling-allow
+    when: true
+    action: allow
+
+applications:
+  collection_actions:
+    close_invoice:
+      invoke: [collection-actions-ceiling-allow]

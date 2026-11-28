@@ -1,0 +1,55 @@
+# Extensions
+# Extension lifecycle, configuration and invocation.
+#
+# Surface:   extensions
+# Qualifier: acme-crm
+# Actions:   enable, disable, configure, reauthorise, read, invoke
+#
+# This file holds two YAML documents. The first is a policy bundle: named rules
+# with approvals and step-up proof, referenced from policy.extensions. The second is an
+# IAM policy: the principal-bound ceiling, limited to `when` and `action: allow|deny`.
+# The ceiling is evaluated first; the bundle can only narrow it.
+
+rules:
+  - name: extensions-readers
+    when:
+      contains: [subject.roles, "PROJECT_ADMIN"]
+    action: allow
+  - name: extensions-writers
+    when:
+      contains: [subject.roles, "PROJECT_ADMIN"]
+    action: allow
+
+policy:
+  extensions:
+    acme-crm:
+      actions:
+        enable:
+          - extensions-writers
+        disable:
+          - extensions-writers
+        configure:
+          - extensions-writers
+        reauthorise:
+          - extensions-writers
+        read:
+          - extensions-readers
+        invoke:
+          - extensions-writers
+---
+# IAM policy: the ceiling. It grants entitlement and carries no approvals or proofs.
+rules:
+  - name: extensions-ceiling-allow
+    when: true
+    action: allow
+
+applications:
+  extensions:
+    acme-crm:
+      actions:
+        enable: [extensions-ceiling-allow]
+        disable: [extensions-ceiling-allow]
+        configure: [extensions-ceiling-allow]
+        reauthorise: [extensions-ceiling-allow]
+        read: [extensions-ceiling-allow]
+        invoke: [extensions-ceiling-allow]

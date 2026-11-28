@@ -1,0 +1,35 @@
+# Custody mode
+# Starting a custody-mode transition. One verb, no qualifier.
+#
+# Surface:   custody_mode
+# Qualifier: none (the surface has no qualifier)
+# Actions:   transition
+#
+# This file holds two YAML documents. The first is a policy bundle: named rules
+# with approvals and step-up proof, referenced from policy.custody_mode. The second is an
+# IAM policy: the principal-bound ceiling, limited to `when` and `action: allow|deny`.
+# The ceiling is evaluated first; the bundle can only narrow it.
+
+rules:
+  - name: custody-mode-admin-with-fresh-proof
+    when:
+      contains: [subject.roles, "PROJECT_ADMIN"]
+    action: allow
+    requires_proof: { max_age: "5m", min_tier: T3_KEY_POSSESSION, single_use: true }
+
+policy:
+  custody_mode:
+    actions:
+      transition:
+        - custody-mode-admin-with-fresh-proof
+---
+# IAM policy: the ceiling. It grants entitlement and carries no approvals or proofs.
+rules:
+  - name: custody-mode-ceiling-allow
+    when: true
+    action: allow
+
+applications:
+  custody_mode:
+    actions:
+      transition: [custody-mode-ceiling-allow]

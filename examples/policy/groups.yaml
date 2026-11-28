@@ -1,0 +1,64 @@
+# Groups
+# Group management and membership.
+#
+# Surface:   groups
+# Qualifier: none (the surface has no qualifier)
+# Actions:   list, read, create, update, delete, add_member, remove_member
+#
+# This file holds two YAML documents. The first is a policy bundle: named rules
+# with approvals and step-up proof, referenced from policy.groups. The second is an
+# IAM policy: the principal-bound ceiling, limited to `when` and `action: allow|deny`.
+# The ceiling is evaluated first; the bundle can only narrow it.
+
+rules:
+  - name: groups-readers
+    when:
+      contains: [subject.roles, "PROJECT_ADMIN"]
+    action: allow
+  - name: groups-writers
+    when:
+      contains: [subject.roles, "PROJECT_ADMIN"]
+    action: allow
+  - name: groups-needs-second-admin
+    when: true
+    requires_approval_from: { role: PROJECT_ADMIN }
+    expires_after: P2D
+
+policy:
+  groups:
+    actions:
+      list:
+        - groups-readers
+      read:
+        - groups-readers
+      create:
+        - groups-writers
+      update:
+        - groups-writers
+      delete:
+        - groups-needs-second-admin
+      add_member:
+        - groups-writers
+      remove_member:
+        - groups-needs-second-admin
+---
+# IAM policy: the ceiling. It grants entitlement and carries no approvals or proofs.
+rules:
+  - name: groups-ceiling-allow
+    when: true
+    action: allow
+  - name: groups-ceiling-from-office-network
+    when:
+      in_cidr: [environment.ip, ["203.0.113.0/24", "2001:db8::/32"]]
+    action: allow
+
+applications:
+  groups:
+    actions:
+      list: [groups-ceiling-allow]
+      read: [groups-ceiling-allow]
+      create: [groups-ceiling-allow]
+      update: [groups-ceiling-allow]
+      delete: [groups-ceiling-from-office-network]
+      add_member: [groups-ceiling-allow]
+      remove_member: [groups-ceiling-allow]

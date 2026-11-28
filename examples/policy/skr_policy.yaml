@@ -1,0 +1,48 @@
+# Key-release policy
+# The project key-release trust anchor for confidential workloads.
+#
+# Surface:   skr_policy
+# Qualifier: none (the surface has no qualifier)
+# Actions:   read, set_policy, register_measurement, revoke_measurement
+#
+# This file holds two YAML documents. The first is a policy bundle: named rules
+# with approvals and step-up proof, referenced from policy.skr_policy. The second is an
+# IAM policy: the principal-bound ceiling, limited to `when` and `action: allow|deny`.
+# The ceiling is evaluated first; the bundle can only narrow it.
+
+rules:
+  - name: skr-policy-readers
+    when:
+      contains: [subject.roles, "PROJECT_ADMIN"]
+    action: allow
+  - name: skr-policy-admin-with-fresh-proof
+    when:
+      contains: [subject.roles, "PROJECT_ADMIN"]
+    action: allow
+    requires_proof: { max_age: "5m", min_tier: T3_KEY_POSSESSION, single_use: true }
+
+policy:
+  skr_policy:
+    actions:
+      read:
+        - skr-policy-readers
+      set_policy:
+        - skr-policy-admin-with-fresh-proof
+      register_measurement:
+        - skr-policy-admin-with-fresh-proof
+      revoke_measurement:
+        - skr-policy-admin-with-fresh-proof
+---
+# IAM policy: the ceiling. It grants entitlement and carries no approvals or proofs.
+rules:
+  - name: skr-policy-ceiling-allow
+    when: true
+    action: allow
+
+applications:
+  skr_policy:
+    actions:
+      read: [skr-policy-ceiling-allow]
+      set_policy: [skr-policy-ceiling-allow]
+      register_measurement: [skr-policy-ceiling-allow]
+      revoke_measurement: [skr-policy-ceiling-allow]

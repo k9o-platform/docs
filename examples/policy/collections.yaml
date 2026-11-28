@@ -1,0 +1,82 @@
+# Collections
+# Row operations on a collection, bound custom actions and encrypted-column reveal.
+#
+# Surface:   collections
+# Qualifier: invoices
+# Actions:   select, insert, update, delete, purge
+#
+# This file holds two YAML documents. The first is a policy bundle: named rules
+# with approvals and step-up proof, referenced from policy.collections. The second is an
+# IAM policy: the principal-bound ceiling, limited to `when` and `action: allow|deny`.
+# The ceiling is evaluated first; the bundle can only narrow it.
+
+rules:
+  - name: collections-admins
+    when:
+      contains: [subject.roles, "PROJECT_ADMIN"]
+    action: allow
+  - name: invoices-large-update-review
+    when:
+      gt: [change.row.amount_cents, 100000]
+    requires_approval_from: { role: PROJECT_ADMIN }
+    expires_after: P3D
+  - name: invoices-admin-reveals-with-fresh-proof
+    when:
+      contains: [subject.roles, "PROJECT_ADMIN"]
+    action: allow
+    requires_proof: { max_age: "5m", min_tier: T3_KEY_POSSESSION, single_use: true }
+
+policy:
+  collections:
+    invoices:
+      actions:
+        select:
+          rule:
+            or:
+              - eq: [resource.ownerId, subject.id]
+              - contains: [subject.roles, "PROJECT_ADMIN"]
+        insert:
+          rule:
+            contains: [subject.roles, "PROJECT_MEMBER"]
+        update:
+          approval:
+            - invoices-large-update-review
+        delete:
+          rule:
+            contains: [subject.roles, "PROJECT_ADMIN"]
+        # Hard-purging a tombstoned row is a PROJECT_ADMIN action.
+        purge:
+          rule:
+            contains: [subject.roles, "PROJECT_ADMIN"]
+      # Binding or unbinding a custom action is a management operation on the collection.
+      manage_actions:
+        - collections-admins
+      # Decrypting an encrypted column's plaintext.
+      fields:
+        ssn:
+          reveal:
+            - invoices-admin-reveals-with-fresh-proof
+---
+# IAM policy: the ceiling. It grants entitlement and carries no approvals or proofs.
+rules:
+  - name: collections-ceiling-allow
+    when: true
+    action: allow
+  - name: collections-ceiling-from-office-network
+    when:
+      in_cidr: [environment.ip, ["203.0.113.0/24", "2001:db8::/32"]]
+    action: allow
+
+applications:
+  collections:
+    invoices:
+      actions:
+        select: [collections-ceiling-allow]
+        insert: [collections-ceiling-allow]
+        update: [collections-ceiling-allow]
+        delete: [collections-ceiling-from-office-network]
+        purge: [collections-ceiling-from-office-network]
+      manage_actions: [collections-ceiling-allow]
+      fields:
+        ssn:
+          reveal: [collections-ceiling-from-office-network]

@@ -1,0 +1,60 @@
+# Project members
+# Membership and role grants.
+#
+# Surface:   project_members
+# Qualifier: none (the surface has no qualifier)
+# Actions:   invite, remove, list, grant_role
+#
+# This file holds two YAML documents. The first is a policy bundle: named rules
+# with approvals and step-up proof, referenced from policy.project_members. The second is an
+# IAM policy: the principal-bound ceiling, limited to `when` and `action: allow|deny`.
+# The ceiling is evaluated first; the bundle can only narrow it.
+
+rules:
+  - name: project-members-readers
+    when:
+      contains: [subject.roles, "PROJECT_ADMIN"]
+    action: allow
+  - name: project-members-writers
+    when:
+      contains: [subject.roles, "PROJECT_ADMIN"]
+    action: allow
+  - name: project-members-admin-with-fresh-proof
+    when:
+      contains: [subject.roles, "PROJECT_ADMIN"]
+    action: allow
+    requires_proof: { max_age: "5m", min_tier: T3_KEY_POSSESSION, single_use: true }
+  - name: project-members-needs-second-admin
+    when: true
+    requires_approval_from: { role: PROJECT_ADMIN }
+    expires_after: P2D
+
+policy:
+  project_members:
+    actions:
+      invite:
+        - project-members-writers
+      remove:
+        - project-members-needs-second-admin
+      list:
+        - project-members-readers
+      grant_role:
+        - project-members-admin-with-fresh-proof
+---
+# IAM policy: the ceiling. It grants entitlement and carries no approvals or proofs.
+rules:
+  - name: project-members-ceiling-allow
+    when: true
+    action: allow
+  - name: project-members-ceiling-from-office-network
+    when:
+      in_cidr: [environment.ip, ["203.0.113.0/24", "2001:db8::/32"]]
+    action: allow
+
+applications:
+  project_members:
+    actions:
+      invite: [project-members-ceiling-allow]
+      remove: [project-members-ceiling-from-office-network]
+      list: [project-members-ceiling-allow]
+      grant_role: [project-members-ceiling-allow]

@@ -1,0 +1,50 @@
+# Extension members
+# Extension-scoped member grants.
+#
+# Surface:   extension_members
+# Qualifier: ext_6Tn3yUi8OpAs
+# Actions:   create, revoke, read
+#
+# This file holds two YAML documents. The first is a policy bundle: named rules
+# with approvals and step-up proof, referenced from policy.extension_members. The second is an
+# IAM policy: the principal-bound ceiling, limited to `when` and `action: allow|deny`.
+# The ceiling is evaluated first; the bundle can only narrow it.
+
+rules:
+  - name: extension-members-readers
+    when:
+      contains: [subject.roles, "PROJECT_ADMIN"]
+    action: allow
+  - name: extension-members-writers
+    when:
+      contains: [subject.roles, "PROJECT_ADMIN"]
+    action: allow
+  - name: extension-members-needs-second-admin
+    when: true
+    requires_approval_from: { role: PROJECT_ADMIN }
+    expires_after: P2D
+
+policy:
+  extension_members:
+    ext_6Tn3yUi8OpAs:
+      actions:
+        create:
+          - extension-members-writers
+        revoke:
+          - extension-members-needs-second-admin
+        read:
+          - extension-members-readers
+---
+# IAM policy: the ceiling. It grants entitlement and carries no approvals or proofs.
+rules:
+  - name: extension-members-ceiling-allow
+    when: true
+    action: allow
+
+applications:
+  extension_members:
+    ext_6Tn3yUi8OpAs:
+      actions:
+        create: [extension-members-ceiling-allow]
+        revoke: [extension-members-ceiling-allow]
+        read: [extension-members-ceiling-allow]

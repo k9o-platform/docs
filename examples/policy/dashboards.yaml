@@ -1,0 +1,62 @@
+# Dashboards
+# Dashboard authoring.
+#
+# Surface:   dashboards
+# Qualifier: dsh_5Qr9sTu2VwEb
+# Actions:   create, read, update, delete
+#
+# This file holds two YAML documents. The first is a policy bundle: named rules
+# with approvals and step-up proof, referenced from policy.dashboards. The second is an
+# IAM policy: the principal-bound ceiling, limited to `when` and `action: allow|deny`.
+# The ceiling is evaluated first; the bundle can only narrow it.
+
+rules:
+  - name: dashboards-readers
+    when:
+      or:
+        - contains: [subject.roles, "PROJECT_ADMIN"]
+        - contains: [subject.roles, "PROJECT_MEMBER"]
+        - contains: [subject.roles, "PROJECT_VIEWER"]
+    action: allow
+  - name: dashboards-writers
+    when:
+      or:
+        - contains: [subject.roles, "PROJECT_ADMIN"]
+        - contains: [subject.roles, "PROJECT_AUTHOR"]
+    action: allow
+  - name: dashboards-needs-second-admin
+    when: true
+    requires_approval_from: { role: PROJECT_ADMIN }
+    expires_after: P2D
+
+policy:
+  dashboards:
+    dsh_5Qr9sTu2VwEb:
+      actions:
+        create:
+          - dashboards-writers
+        read:
+          - dashboards-readers
+        update:
+          - dashboards-writers
+        delete:
+          - dashboards-needs-second-admin
+---
+# IAM policy: the ceiling. It grants entitlement and carries no approvals or proofs.
+rules:
+  - name: dashboards-ceiling-allow
+    when: true
+    action: allow
+  - name: dashboards-ceiling-from-office-network
+    when:
+      in_cidr: [environment.ip, ["203.0.113.0/24", "2001:db8::/32"]]
+    action: allow
+
+applications:
+  dashboards:
+    dsh_5Qr9sTu2VwEb:
+      actions:
+        create: [dashboards-ceiling-allow]
+        read: [dashboards-ceiling-allow]
+        update: [dashboards-ceiling-allow]
+        delete: [dashboards-ceiling-from-office-network]

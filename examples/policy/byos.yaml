@@ -1,0 +1,56 @@
+# Bring-your-own storage
+# Binding an organisation storage account to the project.
+#
+# Surface:   byos
+# Qualifier: byos_1Ab7cDe4FgXz
+# Actions:   create, update, retire, test, read
+#
+# This file holds two YAML documents. The first is a policy bundle: named rules
+# with approvals and step-up proof, referenced from policy.byos. The second is an
+# IAM policy: the principal-bound ceiling, limited to `when` and `action: allow|deny`.
+# The ceiling is evaluated first; the bundle can only narrow it.
+
+rules:
+  - name: byos-readers
+    when:
+      contains: [subject.roles, "PROJECT_ADMIN"]
+    action: allow
+  - name: byos-writers
+    when:
+      contains: [subject.roles, "PROJECT_ADMIN"]
+    action: allow
+  - name: byos-needs-second-admin
+    when: true
+    requires_approval_from: { role: PROJECT_ADMIN }
+    expires_after: P2D
+
+policy:
+  byos:
+    byos_1Ab7cDe4FgXz:
+      actions:
+        create:
+          - byos-writers
+        update:
+          - byos-writers
+        retire:
+          - byos-needs-second-admin
+        test:
+          - byos-readers
+        read:
+          - byos-readers
+---
+# IAM policy: the ceiling. It grants entitlement and carries no approvals or proofs.
+rules:
+  - name: byos-ceiling-allow
+    when: true
+    action: allow
+
+applications:
+  byos:
+    byos_1Ab7cDe4FgXz:
+      actions:
+        create: [byos-ceiling-allow]
+        update: [byos-ceiling-allow]
+        retire: [byos-ceiling-allow]
+        test: [byos-ceiling-allow]
+        read: [byos-ceiling-allow]

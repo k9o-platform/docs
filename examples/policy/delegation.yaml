@@ -1,0 +1,39 @@
+# Delegated invocation
+# Acting on behalf of a named end user, or confined to one.
+#
+# Surface:   delegation
+# Qualifier: none (the surface has no qualifier)
+# Actions:   invoke_on_behalf_of, invoke_confined_to
+#
+# This file holds two YAML documents. The first is a policy bundle: named rules
+# with approvals and step-up proof, referenced from policy.delegation. The second is an
+# IAM policy: the principal-bound ceiling, limited to `when` and `action: allow|deny`.
+# The ceiling is evaluated first; the bundle can only narrow it.
+
+rules:
+  - name: delegation-service-identities
+    when:
+      or:
+        - starts_with: [subject.id, "swi_"]
+        - starts_with: [subject.id, "cwi_"]
+    action: allow
+
+policy:
+  delegation:
+    actions:
+      invoke_on_behalf_of:
+        - delegation-service-identities
+      invoke_confined_to:
+        - delegation-service-identities
+---
+# IAM policy: the ceiling. It grants entitlement and carries no approvals or proofs.
+rules:
+  - name: delegation-ceiling-allow
+    when: true
+    action: allow
+
+applications:
+  delegation:
+    actions:
+      invoke_on_behalf_of: [delegation-ceiling-allow]
+      invoke_confined_to: [delegation-ceiling-allow]

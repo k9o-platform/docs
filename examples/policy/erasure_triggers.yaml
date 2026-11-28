@@ -1,0 +1,60 @@
+# Erasure triggers
+# Configuration of erasure triggers.
+#
+# Surface:   erasure_triggers
+# Qualifier: trg_5Gh1jKl7MnWs
+# Actions:   create, read, list, update, delete
+#
+# This file holds two YAML documents. The first is a policy bundle: named rules
+# with approvals and step-up proof, referenced from policy.erasure_triggers. The second is an
+# IAM policy: the principal-bound ceiling, limited to `when` and `action: allow|deny`.
+# The ceiling is evaluated first; the bundle can only narrow it.
+
+rules:
+  - name: erasure-triggers-readers
+    when:
+      contains: [subject.roles, "PROJECT_ADMIN"]
+    action: allow
+  - name: erasure-triggers-writers
+    when:
+      contains: [subject.roles, "PROJECT_ADMIN"]
+    action: allow
+  - name: erasure-triggers-needs-second-admin
+    when: true
+    requires_approval_from: { role: PROJECT_ADMIN }
+    expires_after: P2D
+
+policy:
+  erasure_triggers:
+    trg_5Gh1jKl7MnWs:
+      actions:
+        create:
+          - erasure-triggers-writers
+        read:
+          - erasure-triggers-readers
+        list:
+          - erasure-triggers-readers
+        update:
+          - erasure-triggers-writers
+        delete:
+          - erasure-triggers-needs-second-admin
+---
+# IAM policy: the ceiling. It grants entitlement and carries no approvals or proofs.
+rules:
+  - name: erasure-triggers-ceiling-allow
+    when: true
+    action: allow
+  - name: erasure-triggers-ceiling-from-office-network
+    when:
+      in_cidr: [environment.ip, ["203.0.113.0/24", "2001:db8::/32"]]
+    action: allow
+
+applications:
+  erasure_triggers:
+    trg_5Gh1jKl7MnWs:
+      actions:
+        create: [erasure-triggers-ceiling-allow]
+        read: [erasure-triggers-ceiling-allow]
+        list: [erasure-triggers-ceiling-allow]
+        update: [erasure-triggers-ceiling-allow]
+        delete: [erasure-triggers-ceiling-from-office-network]

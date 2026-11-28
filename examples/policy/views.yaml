@@ -1,0 +1,62 @@
+# Views
+# View authoring.
+#
+# Surface:   views
+# Qualifier: viw_8Hj3kLm6NpQa
+# Actions:   create, read, update, delete
+#
+# This file holds two YAML documents. The first is a policy bundle: named rules
+# with approvals and step-up proof, referenced from policy.views. The second is an
+# IAM policy: the principal-bound ceiling, limited to `when` and `action: allow|deny`.
+# The ceiling is evaluated first; the bundle can only narrow it.
+
+rules:
+  - name: views-readers
+    when:
+      or:
+        - contains: [subject.roles, "PROJECT_ADMIN"]
+        - contains: [subject.roles, "PROJECT_MEMBER"]
+        - contains: [subject.roles, "PROJECT_VIEWER"]
+    action: allow
+  - name: views-writers
+    when:
+      or:
+        - contains: [subject.roles, "PROJECT_ADMIN"]
+        - contains: [subject.roles, "PROJECT_AUTHOR"]
+    action: allow
+  - name: views-needs-second-admin
+    when: true
+    requires_approval_from: { role: PROJECT_ADMIN }
+    expires_after: P2D
+
+policy:
+  views:
+    viw_8Hj3kLm6NpQa:
+      actions:
+        create:
+          - views-writers
+        read:
+          - views-readers
+        update:
+          - views-writers
+        delete:
+          - views-needs-second-admin
+---
+# IAM policy: the ceiling. It grants entitlement and carries no approvals or proofs.
+rules:
+  - name: views-ceiling-allow
+    when: true
+    action: allow
+  - name: views-ceiling-from-office-network
+    when:
+      in_cidr: [environment.ip, ["203.0.113.0/24", "2001:db8::/32"]]
+    action: allow
+
+applications:
+  views:
+    viw_8Hj3kLm6NpQa:
+      actions:
+        create: [views-ceiling-allow]
+        read: [views-ceiling-allow]
+        update: [views-ceiling-allow]
+        delete: [views-ceiling-from-office-network]

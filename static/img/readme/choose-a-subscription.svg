@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 566" width="1200" height="566" role="img" aria-labelledby="t d">
+  <title id="t">Choose a subscription</title>
+  <desc id="d">A decision diagram. Ask what you want to listen to. Application events use streams. Collection changes and other live topics use realtime.subscribe. A declared metadata surface uses metadata.subscribe. The cells of a rollup use rollups.subscribe. The project&#x27;s audit history uses audit.tail.</desc>
+  <defs>
+    <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#8fb0ff"/></marker>
+    <marker id="aa" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#ffffff"/></marker>
+  </defs>
+  <rect x="0" y="0" width="1200" height="566" rx="16" fill="#0d1116"/>
+  <g font-family="Inter, 'Helvetica Neue', Helvetica, Arial, sans-serif">
+    <g transform="translate(120.0 18.8) scale(0.8)">
+    <rect x="20" y="278" width="300" height="160" rx="6" fill="#1a66ff" stroke="#9ec0ff" stroke-width="2"/>
+    <text x="170.0" y="349" font-size="26" font-weight="700" fill="#ffffff" text-anchor="middle">What do you want</text>
+    <text x="170.0" y="385" font-size="24" fill="#dbe7ff" text-anchor="middle">to listen to?</text>
+    <path d="M335 358 V114 H368" fill="none" stroke="#8fb0ff" stroke-width="2.5" marker-end="url(#ah)"/>
+    <rect x="370" y="64" width="440" height="100" rx="6" fill="#0b1b35" stroke="#3a5890" stroke-width="2"/>
+    <text x="590.0" y="105" font-size="24" font-weight="400" fill="#b8cbf2" text-anchor="middle">Publish and replay</text>
+    <text x="590.0" y="141" font-size="24" fill="#9db6e8" text-anchor="middle">application events</text>
+    <path d="M812 114 H858" fill="none" stroke="#8fb0ff" stroke-width="2.5" marker-end="url(#ah)"/>
+    <rect x="860" y="64" width="320" height="100" rx="6" fill="#10264a" stroke="#4f7cff" stroke-width="2"/>
+    <text x="1020.0" y="123" font-size="24" font-weight="700" fill="#eaf1ff" text-anchor="middle" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace">streams</text>
+    <path d="M335 358 V236 H368" fill="none" stroke="#8fb0ff" stroke-width="2.5" marker-end="url(#ah)"/>
+    <rect x="370" y="186" width="440" height="100" rx="6" fill="#0b1b35" stroke="#3a5890" stroke-width="2"/>
+    <text x="590.0" y="227" font-size="24" font-weight="400" fill="#b8cbf2" text-anchor="middle">Follow changes to a collection,</text>
+    <text x="590.0" y="263" font-size="24" fill="#9db6e8" text-anchor="middle">and other live topics</text>
+    <path d="M812 236 H858" fill="none" stroke="#8fb0ff" stroke-width="2.5" marker-end="url(#ah)"/>
+    <rect x="860" y="186" width="320" height="100" rx="6" fill="#10264a" stroke="#4f7cff" stroke-width="2"/>
+    <text x="1020.0" y="245" font-size="24" font-weight="700" fill="#eaf1ff" text-anchor="middle" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace">realtime.subscribe</text>
+    <path d="M335 358 H368" fill="none" stroke="#8fb0ff" stroke-width="2.5" marker-end="url(#ah)"/>
+    <rect x="370" y="308" width="440" height="100" rx="6" fill="#0b1b35" stroke="#3a5890" stroke-width="2"/>
+    <text x="590.0" y="349" font-size="24" font-weight="400" fill="#b8cbf2" text-anchor="middle">Follow changes to a declared</text>
+    <text x="590.0" y="385" font-size="24" fill="#9db6e8" text-anchor="middle">metadata surface</text>
+    <path d="M812 358 H858" fill="none" stroke="#8fb0ff" stroke-width="2.5" marker-end="url(#ah)"/>
+    <rect x="860" y="308" width="320" height="100" rx="6" fill="#10264a" stroke="#4f7cff" stroke-width="2"/>
+    <text x="1020.0" y="367" font-size="24" font-weight="700" fill="#eaf1ff" text-anchor="middle" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace">metadata.subscribe</text>
+    <path d="M335 358 V480 H368" fill="none" stroke="#8fb0ff" stroke-width="2.5" marker-end="url(#ah)"/>
+    <rect x="370" y="430" width="440" height="100" rx="6" fill="#0b1b35" stroke="#3a5890" stroke-width="2"/>
+    <text x="590.0" y="471" font-size="24" font-weight="400" fill="#b8cbf2" text-anchor="middle">Follow the cells</text>
+    <text x="590.0" y="507" font-size="24" fill="#9db6e8" text-anchor="middle">of a rollup</text>
+    <path d="M812 480 H858" fill="none" stroke="#8fb0ff" stroke-width="2.5" marker-end="url(#ah)"/>
+    <rect x="860" y="430" width="320" height="100" rx="6" fill="#10264a" stroke="#4f7cff" stroke-width="2"/>
+    <text x="1020.0" y="489" font-size="24" font-weight="700" fill="#eaf1ff" text-anchor="middle" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace">rollups.subscribe</text>
+    <path d="M335 358 V602 H368" fill="none" stroke="#8fb0ff" stroke-width="2.5" marker-end="url(#ah)"/>
+    <rect x="370" y="552" width="440" height="100" rx="6" fill="#0b1b35" stroke="#3a5890" stroke-width="2"/>
+    <text x="590.0" y="593" font-size="24" font-weight="400" fill="#b8cbf2" text-anchor="middle">Follow the project&#x27;s</text>
+    <text x="590.0" y="629" font-size="24" fill="#9db6e8" text-anchor="middle">audit history</text>
+    <path d="M812 602 H858" fill="none" stroke="#8fb0ff" stroke-width="2.5" marker-end="url(#ah)"/>
+    <rect x="860" y="552" width="320" height="100" rx="6" fill="#10264a" stroke="#4f7cff" stroke-width="2"/>
+    <text x="1020.0" y="611" font-size="24" font-weight="700" fill="#eaf1ff" text-anchor="middle" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace">audit.tail</text>
+    <path d="M322 358 H335" fill="none" stroke="#8fb0ff" stroke-width="2.5"/>
+    </g>
+    <g transform="translate(1136 20) scale(0.0703)" role="img" aria-label="Kilimanjaro">
+      <polygon points="256,37.2 441.248,358.064 70.752,358.064" fill="#1A66FF"/>
+      <polygon points="57.392,375.608 114.784,474.8 0,474.8" fill="#FFFFFF"/>
+      <polygon points="189.8,375.608 247.192,474.8 132.408,474.8" fill="#FFFFFF"/>
+      <polygon points="322.2,375.608 379.592,474.8 264.808,474.8" fill="#FFFFFF"/>
+      <polygon points="454.608,375.608 512,474.8 397.216,474.8" fill="#FFFFFF"/>
+    </g>
+  </g>
+</svg>

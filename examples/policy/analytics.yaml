@@ -1,0 +1,37 @@
+# Analytics queries
+# Queries against an analytics dataset.
+#
+# Surface:   analytics
+# Qualifier: sales_daily
+# Actions:   query
+#
+# This file holds two YAML documents. The first is a policy bundle: named rules
+# with approvals and step-up proof, referenced from policy.analytics. The second is an
+# IAM policy: the principal-bound ceiling, limited to `when` and `action: allow|deny`.
+# The ceiling is evaluated first; the bundle can only narrow it.
+
+rules:
+  - name: analytics-readers
+    when:
+      or:
+        - contains: [subject.roles, "PROJECT_ADMIN"]
+        - contains: [subject.roles, "PROJECT_MEMBER"]
+        - contains: [subject.roles, "PROJECT_VIEWER"]
+    action: allow
+
+policy:
+  analytics:
+    sales_daily:
+      query:
+        - analytics-readers
+---
+# IAM policy: the ceiling. It grants entitlement and carries no approvals or proofs.
+rules:
+  - name: analytics-ceiling-allow
+    when: true
+    action: allow
+
+applications:
+  analytics:
+    sales_daily:
+      query: [analytics-ceiling-allow]
